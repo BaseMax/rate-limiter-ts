@@ -26,12 +26,8 @@ npm i rate-limiter-ts
 Create a new instance of the RateLimit class and configure it according to your needs. specify the limits, and provide any optional configuration options:
 
 ```typescript
-import express, { Request, Response } from 'express';
-import {
-  RateLimiter,
-  TokenBucket,
-  RateLimiterConfigOptions
-} from 'rate-limiter-ts';
+import express from 'express';
+import { TokenBucket } from 'rate-limiter-ts';
 
 const app = express();
 
