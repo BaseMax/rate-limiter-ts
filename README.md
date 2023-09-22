@@ -1,67 +1,77 @@
-# RateLimit-ts - Rate Limiting Library for TypeScript and JavaScript
+# rate-limiter-ts | Rate Limiting Library for TypeScript and JavaScript
 
-RateLimit-ts is a versatile TypeScript and JavaScript library designed to provide rate limiting capabilities for various web frameworks, including Nest, Express, and other frameworks within the JavaScript ecosystem. This library is built to offer flexibility in rate limiting strategies, supporting token bucket and IP-based methods, making it suitable for a wide range of use cases.
+This npm package provides a rate limiter middleware for Express applications. It helps prevent abuse of your API by limiting the number of requests that can be made from a specific IP address within a given time frame.
 
 ## Features
 
-- **Flexible Integration:** RateLimit-ts can be seamlessly integrated into different web frameworks, including Nest, Express, and other JavaScript frameworks, allowing you to implement rate limiting in various projects.
-- **Multiple Rate Limiting Strategies:** This library supports both token bucket and IP-based rate limiting strategies, enabling you to choose the approach that best fits your requirements.
-- **Built with TypeScript: RateLimit-ts is developed using TypeScript, providing strong typing and enhancing code readability.
+- **Flexible Integration:** rate-limiter-ts can be seamlessly integrated into different web frameworks, including Nest, Express, and other JavaScript frameworks, allowing you to implement rate limiting in various projects.
+- **Storage Strategies:**
+
+  - Local Storage: The default storage strategy that uses in-memory storage. It's suitable for single-server setups.
+
+  - Redis Storage: Use Redis as a distributed storage solution for multi-server environments. Configure Redis options to enable this strategy.
+
+- **Built with TypeScript:** rate-limit-ts is developed using TypeScript, providing strong typing and enhancing code readability.
 
 ## Installation
 
-You can install the RateLimit-ts library using npm or yarn:
+You can install the npm i rate-limiter-ts library using npm:
 
 ```bash
-npm install ratelimit-ts
+npm i rate-limiter-ts
 ```
 
-or
+### Use Rate Limiting:
 
-```bash
-yarn add ratelimit-ts
-```
-
-## Getting Started
-
-To get started with RateLimit-ts, follow these steps:
-
-### Import the Library:
-
-Import the RateLimit class from the library into your project:
+Create a new instance of the RateLimit class and configure it according to your needs. specify the limits, and provide any optional configuration options:
 
 ```typescript
-import { RateLimit } from 'ratelimit-ts';
-```
-
-### Configure Rate Limiting:
-
-Create a new instance of the RateLimit class and configure it according to your needs. You can set the rate limit strategy (token bucket or IP-based), specify the limits, and provide any optional configuration options:
-
-```typescript
-// Create a RateLimit instance
-const rateLimiter = new RateLimit({
-    strategy: 'tokenBucket', // or 'ipBased'
-    // Other configuration options...
-});
-```
-
-### Apply Rate Limiting Middleware:
-
-Integrate the rate limiting middleware into your web framework. Here's an example of how to use it with Express:
-
-```typescript
-import express from 'express';
+import express, { Request, Response } from 'express';
+import {
+  RateLimiter,
+  TokenBucket,
+  RateLimiterConfigOptions
+} from 'express-rate-limiter';
 
 const app = express();
 
-// Apply rate limiting middleware
-app.use(rateLimiter.middleware());
+// Create a TokenBucket rate limiter with a specific configuration
+const rateLimiter = new TokenBucket({
+  capacity: 100, // Maximum number of requests allowed
+  refillRate: 'minute', // Refill rate, can be 'sec', 'min', 'hr', or 'day'
+  message: 'Custom Message', // Optional message to send when rate limit is exceeded
+  storage: {
+    strategy: 'redis',
+    redisOptions: {
+      host: 'custom-host', // Redis host
+      port: 12345 // Redis port
+    }
+  }
+});
 
-// Your routes and other middleware...
+// Apply the rate limiter middleware to all routes
+app.use((req, res, next) => {
+  rateLimiter.middleware(req, res, next);
+});
 
+const specificLimiter = new TokenBucket({
+  capacity: 100,
+  refillRate: 'minute',
+  storage: {
+    strategy: 'local'
+  }
+});
+
+const specificLimiterMiddleware = (req, res, next) => {
+  specificLimiter.middleware(req, res, next);
+};
+
+// Apply the rate limiter middleware to specific routes
+app.use('/api/some-route', limiterMiddleware);
+
+// Your Express route handlers here
 app.listen(3000, () => {
-    console.log('Server started on port 3000');
+  console.log('Server is running on port 3000');
 });
 ```
 
@@ -69,11 +79,12 @@ app.listen(3000, () => {
 
 When creating a RateLimit instance, you can provide various configuration options to customize the rate limiting behavior. Some of the available options include:
 
-- `strategy`: The rate limiting strategy to use, either 'tokenBucket' or 'ipBased'.
-- `limits`: An object specifying the rate limits for different routes or endpoints.
-- `keyGenerator`: A function to generate custom keys for IP-based rate limiting.
-- `onLimitReached`: A callback function triggered when a limit is reached.
-- `store`: The storage mechanism for rate limiting data.
+- `capacity`: The maximum number of requests allowed within the specified time frame.
+- `refillRate`: The rate at which the tokens (requests) are refilled, specified in milliseconds by default. You can also use one of 'sec', 'min', 'hr', or 'day'.
+- `message`: Optional. The message to be sent in the response when the rate limit is exceeded. The default message is 'Too Many Requests'.
+- `storage`: Configuration for the storage strategy. You can choose between 'redis' or 'local' storage. If using 'redis', you can provide redisOptions for custom Redis configuration.
+
+note: The default Redis host is "localhost" and port is 6379.
 
 Refer to the documentation for a comprehensive list of configuration options and their descriptions.
 
