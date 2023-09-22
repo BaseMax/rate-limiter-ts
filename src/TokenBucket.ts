@@ -1,6 +1,6 @@
 import { RateLimiter } from './RateLimiter';
 import { TokenBucketStrategy } from './TokenBucketStrategy';
-import { RateLimiterConfigOptions } from './type';
+import { RateLimiterConfigOptions } from './rateLimiter.types';
 
 export class TokenBucket extends RateLimiter {
   constructor({

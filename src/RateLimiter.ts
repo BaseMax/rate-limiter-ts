@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { RateLimiterStrategy } from './interface';
+import { RateLimiterStrategy } from './rateLimiter.interface';
 import crypto from 'crypto';
 
 export class RateLimiter {
