@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BaseMax/ratelimit-ts.git"
+    "url": "git+https://github.com/BaseMax/rate-limiter-ts.git"
   },
   "keywords": [
     "rate",
@@ -22,9 +22,9 @@
   "author": "Max Base, Alireza Naghdipour",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/BaseMax/ratelimit-ts/issues"
+    "url": "https://github.com/BaseMax/rate-limiter-ts/issues"
   },
-  "homepage": "https://github.com/BaseMax/ratelimit-ts#readme",
+  "homepage": "https://github.com/BaseMax/rate-limiter-ts#readme",
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.4",
