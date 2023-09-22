@@ -31,7 +31,7 @@ import {
   RateLimiter,
   TokenBucket,
   RateLimiterConfigOptions
-} from 'express-rate-limiter';
+} from 'rate-limiter-ts';
 
 const app = express();
 
