@@ -7,7 +7,6 @@
   "scripts": {
     "test": "jest",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prepare": "husky install",
     "build": "tsc -p tsconfig.build.json"
   },
   "repository": {
