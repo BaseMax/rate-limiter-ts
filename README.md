@@ -82,8 +82,6 @@ When creating a RateLimit instance, you can provide various configuration option
 
 note: The default Redis host is "localhost" and port is 6379.
 
-Refer to the documentation for a comprehensive list of configuration options and their descriptions.
-
 ## Examples
 
 For more detailed usage examples and integration with different web frameworks like Nest and Express, check out the examples directory in the repository.

@@ -1,6 +1,6 @@
 {
   "name": "rate-limiter-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "commonjs",
   "description": "This library is built to offer flexibility in rate limiting strategies, supporting token bucket and IP-based methods, making it suitable for a wide range of use cases.",
   "main": "dist/index.js",
