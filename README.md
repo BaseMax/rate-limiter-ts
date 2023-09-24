@@ -80,7 +80,7 @@ When creating a RateLimit instance, you can provide various configuration option
 - `message`: Optional. The message to be sent in the response when the rate limit is exceeded. The default message is 'Too Many Requests'.
 - `storage`: Configuration for the storage strategy. You can choose between 'redis' or 'local' storage. If using 'redis', you can provide redisOptions for custom Redis configuration.
 
-note: The default Redis host is "localhost" and port is 6379.
+**Note:** The default Redis host is "localhost" and port is 6379.
 
 ## Examples
 
